@@ -8,7 +8,7 @@ Se você baixou o pacote do servidor e está com dúvidas de como executar, siga
 
 | Componente   | Download |
 |--------------|----------|
-| 🔧 Patch Files (System, Animations, SysTextures) | [Download Patch](https://mega.nz/file/lq8UnKhT#mO4BLffqoSEqgjF6nA34wvm67eHTkJU8Zwq9s_N9TJI) |
+| 🔧 Client Files (System, Animations, SysTextures...) | [Download](https://mega.nz/file/gmEAhRSY#3Trm55-Vz-EAvG9QQ0hJF4AGYPvDOCmcvohL7YQ8dTY) |
 | ☕ Java 11 | [Download Java 11](https://mega.nz/file/V7tj1arS#OKWaTzaCqYK0m3iMmR0kW3TddfAJoiu8a20kOFEKShk) |
 | 🛢️ MariaDB 10.4 | [Download MariaDB](https://mega.nz/file/1jEykRgL#DDuIGktiFbmE-M0jMzhUvYVckw1U0ov-OnZEYS5vopU) |
 
