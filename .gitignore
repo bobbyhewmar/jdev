@@ -4,3 +4,4 @@
 /game/cachedir/
 /auth/log/
 *.cs
+game/config/hexid.txt
