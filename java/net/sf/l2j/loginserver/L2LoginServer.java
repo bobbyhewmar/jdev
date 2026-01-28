@@ -17,6 +17,8 @@ import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.mmocore.SelectorConfig;
 import net.sf.l2j.commons.mmocore.SelectorThread;
 import net.sf.l2j.gameserver.ConnectionPool;
+import net.sf.l2j.gameserver.instancemanager.ServerStatusManager;
+import net.sf.l2j.gameserver.instancemanager.ServerStatusManager.ServerType;
 import net.sf.l2j.launcher.LoginServerLaucher;
 
 /**
@@ -29,7 +31,7 @@ public class L2LoginServer
 	public static final int PROTOCOL_REV = 0x0102;
 	
 	private static L2LoginServer loginServer;
-	
+	public static ServerStatusManager STATUS;
 	private GameServerListener _gameServerListener;
 	private SelectorThread<L2LoginClient> _selectorThread;
 	
@@ -144,6 +146,7 @@ public class L2LoginServer
 		{
 			_gameServerListener = new GameServerListener();
 			_gameServerListener.start();
+			STATUS = ServerStatusManager.start(ServerType.LOGIN);
 		}
 		catch (IOException e)
 		{
@@ -223,6 +226,13 @@ public class L2LoginServer
 	
 	public void shutdown(boolean restart)
 	{
+		Runtime.getRuntime().addShutdownHook(new Thread(() ->
+		{
+		    if (STATUS != null)
+		        STATUS.shutdown();
+		}));
+		
 		Runtime.getRuntime().exit(restart ? 2 : 0);
+		
 	}
 }

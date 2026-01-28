@@ -42,7 +42,6 @@ public class Shutdown extends Thread
 	
 	private int _secondsShut;
 	private int _shutdownMode;
-	
 	public static final int SIGTERM = 0;
 	public static final int GM_SHUTDOWN = 1;
 	public static final int GM_RESTART = 2;
@@ -69,6 +68,7 @@ public class Shutdown extends Thread
 	{
 		_secondsShut = -1;
 		_shutdownMode = SIGTERM;
+		
 	}
 	
 	/**
@@ -99,6 +99,15 @@ public class Shutdown extends Thread
 		if (this == SingletonHolder._instance)
 		{
 			GameListenerManager.getInstance().notifyShutdown();
+			if (GameServer.STATUS != null && GameServer.STATUS.isOnline())
+			{
+				_log.info("ServerStatusManager: GAME is ONLINE, applying shutdown.");
+				GameServer.STATUS.shutdown();
+			}
+			else
+			{
+				_log.info("ServerStatusManager: GAME already OFFLINE or not initialized.");
+			}
 			
 			StringUtil.printSection("Under " + MODE_TEXT[_shutdownMode] + " process");
 			
@@ -244,7 +253,7 @@ public class Shutdown extends Thread
 			catch (Throwable t)
 			{
 			}
-		
+			
 			// server will quit, when this function ends.
 			if (SingletonHolder._instance._shutdownMode == GM_RESTART)
 				Runtime.getRuntime().halt(2);

@@ -128,6 +128,8 @@ import net.sf.l2j.gameserver.instancemanager.MovieMakerManager;
 import net.sf.l2j.gameserver.instancemanager.PetitionManager;
 import net.sf.l2j.gameserver.instancemanager.RaidBossPointsManager;
 import net.sf.l2j.gameserver.instancemanager.RaidBossSpawnManager;
+import net.sf.l2j.gameserver.instancemanager.ServerStatusManager;
+import net.sf.l2j.gameserver.instancemanager.ServerStatusManager.ServerType;
 import net.sf.l2j.gameserver.instancemanager.SevenSigns;
 import net.sf.l2j.gameserver.instancemanager.SevenSignsFestival;
 import net.sf.l2j.gameserver.instancemanager.SiegeManager;
@@ -194,7 +196,7 @@ import net.sf.l2j.util.IPv4Filter;
 public class GameServer
 {
 	public static Logger _log = Logger.getLogger(GameServer.class.getName());
-	
+	public static ServerStatusManager STATUS;
 	private final SelectorThread<L2GameClient> _selectorThread;
 	private final L2GamePacketHandler _gamePacketHandler;
 	private final DeadLockDetector _deadDetectThread;
@@ -651,6 +653,7 @@ public class GameServer
 		_selectorThread.start();
 		GameListenerManager.getInstance().notifyStart();
 		
+		
 	}
 	
 	private static boolean isWindows()
@@ -660,48 +663,49 @@ public class GameServer
 	
 	public static void main(String[] args) throws Exception
 	{
-	    if (isWindows())
-	    {
-	        try
-	        {
-	            if (!GraphicsEnvironment.isHeadless())
-	            {
-	                System.out.println("World: Running in Interface GUI.");
-	                new GameServerLauncher();
-	            }
-	        }
-	        catch (Throwable t)
-	        {
-	            // ignora completamente GUI
-	        }
-	    }
-
-	    startServer();
+		
+		
+		if (isWindows())
+		{
+			try
+			{
+				if (!GraphicsEnvironment.isHeadless())
+				{
+					System.out.println("World: Running in Interface GUI.");
+					new GameServerLauncher();
+				}
+			}
+			catch (Throwable t)
+			{
+				// ignora completamente GUI
+			}
+		}
+		
+		startServer();
 	}
 	
 	private static void startServer() throws Exception
 	{
-	    final String LOG_FOLDER = "./log";
-	    final String LOG_NAME = "config/log.cfg";
-
-	    new File(LOG_FOLDER).mkdir();
-
-	    try (InputStream is = new FileInputStream(LOG_NAME))
-	    {
-	        LogManager.getLogManager().readConfiguration(is);
-	    }
-
-	    StringUtil.printSection("Master");
-
-	    Config.loadGameServer();
-	    XMLDocumentFactory.getInstance();
-	    ConnectionPool.init();
-	    BalanceManager.load();
-	    ThreadPool.init();
-
-	    gameServer = new GameServer();
+		final String LOG_FOLDER = "./log";
+		final String LOG_NAME = "config/log.cfg";
+		
+		new File(LOG_FOLDER).mkdir();
+		
+		try (InputStream is = new FileInputStream(LOG_NAME))
+		{
+			LogManager.getLogManager().readConfiguration(is);
+		}
+		
+		StringUtil.printSection("Master");
+		
+		Config.loadGameServer();
+		XMLDocumentFactory.getInstance();
+		ConnectionPool.init();
+		BalanceManager.load();
+		ThreadPool.init();
+		STATUS = ServerStatusManager.start(ServerType.GAME);
+		gameServer = new GameServer();
 	}
-
 	
 	public static void printStatus()
 	{
