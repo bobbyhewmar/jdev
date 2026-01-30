@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="java"/>
 	<classpathentry kind="src" path="game/data/mods/src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-11.0.10.9-hotspot">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
@@ -10,4 +10,3 @@
 	<classpathentry kind="lib" path="libs/mariadb-java-client-3.1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
-
